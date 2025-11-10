@@ -12,3 +12,52 @@
 - Кеширование компонента
 - Защита CSRF для AJAX-запросов
 - Экранирование вывода
+
+## Установка
+
+### 1. Загрузка файлов компонента
+
+Скопируйте папку компонента в директорию:
+/local/components/app/news.byperiod/
+
+### 2. Создание инфоблока
+
+Если инфоблока новостей не существует, создайте инфоблок "news" со следующими полями:
+
+- NAME
+- ACTIVE_FROM
+- PREVIEW_TEXT
+- DETAIL_PAGE_URL
+
+### 3. Настройка SEF-URL
+
+В файл urlrewrite.php добавьте следующие правила:
+
+    150 =>
+        [
+            "CONDITION" => "#^/news/([0-9]{4})/([0-9]{1,2})/?.*#",
+            "RULE" => "YEAR=\$1&MONTH=\$2",
+            "ID" => "",
+            "PATH" => "/news_test.php",            //страница вызова компонента
+        ],
+    151 =>
+        [
+            "CONDITION" => "#^/news/#",
+            "RULE" => "",
+            "ID" => "bitrix:news",
+            "PATH" => "/news/index.php",
+        ],
+
+### 3. Пример вызова компонента
+
+        $APPLICATION->includeComponent(
+            "app:news.byperiod",
+            "",
+            [
+                "IBLOCK_CODE" => "news",
+                "PAGE_SIZE" => 5,
+                "CACHE_TIME" => 3600,
+                "CACHE_TYPE" => "A",
+            ],
+            false
+        );
