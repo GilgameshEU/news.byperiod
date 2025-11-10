@@ -48,7 +48,7 @@
             "PATH" => "/news/index.php",
         ],
 
-### 3. Пример вызова компонента
+### 4. Пример вызова компонента
 
         $APPLICATION->includeComponent(
             "app:news.byperiod",
